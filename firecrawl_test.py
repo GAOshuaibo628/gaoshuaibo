@@ -1,21 +1,17 @@
 """
-Firecrawl 测试脚本
-使用前请到 https://firecrawl.dev 注册获取免费 API Key
-然后设置环境变量: export FIRECRAWL_API_KEY="fc-YOUR_API_KEY"
+Firecrawl 测试脚本 - 抓取网页并提取 Markdown 内容
 """
 import os
 from firecrawl import Firecrawl
 
-api_key = os.environ.get("FIRECRAWL_API_KEY")
-if not api_key:
-    print("请先设置 API Key:")
-    print("  1. 访问 https://firecrawl.dev 注册")
-    print("  2. 运行: export FIRECRAWL_API_KEY='fc-YOUR_API_KEY'")
-    exit(1)
+API_KEY = os.environ.get("FIRECRAWL_API_KEY", "fc-fb979a96cf004bc0a10a02d18c483a2b")
 
-app = Firecrawl(api_key=api_key)
+app = Firecrawl(api_key=API_KEY)
 
 # 抓取单个网页
 result = app.scrape_url("https://firecrawl.dev")
-print("网页内容 (Markdown):")
-print(result.get("markdown", "")[:500])
+print("标题:", result.metadata.title)
+print("描述:", result.metadata.description)
+print("语言:", result.metadata.language)
+print("--- Markdown 内容预览 ---")
+print(result.markdown[:500])
